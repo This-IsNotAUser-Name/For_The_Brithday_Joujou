@@ -76,9 +76,9 @@ const CERTIFICATE = {
 const STORY = {
 
   start: {
-    image: "images/start.jpg",
+    image: "images/image1.gif",
     caption: "",
-    text: "It's your birthday, and somewhere across the distance between us, I wanted to bring you something more than a message. So — welcome to your adventure. Every choice you make here is one I'd make with you, if I could be there.",
+    text: "It's your birthday, and somewhere across the distance between us, I wanted to bring you something more than a message. So welcome to your adventure! Every choice you make here is one I'd make with you, if I could be there.",
     choices: [
       { label: "Continue", next: "memory_lane" }
     ]
