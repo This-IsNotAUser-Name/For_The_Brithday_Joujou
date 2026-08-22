@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Twinkling background stars, filled in by app.js -->
+  <div id="stars"></div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 1: the landing page she sees first                    -->
+  <!-- Text here is filled in automatically from story.js -->
+  <!-- ============================================================ -->
+  <section id="intro-screen" class="screen">
+    <div class="envelope">
+      <p class="eyebrow">a postcard from far away</p>
+      <h1 id="intro-title"></h1>
+      <p id="intro-message"></p>
+      <button id="start-btn" class="btn btn-primary"></button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 2: the adventure itself. One "postcard" is shown       -->
+  <!-- at a time, its content swapped in by app.js from story.js    -->
+  <!-- ============================================================ -->
+  <section id="adventure-screen" class="screen hidden">
+    <div class="postcard" id="postcard">
+      <div class="postmark" id="postmark">01</div>
+
+      <div class="photo-frame">
+        <img id="scene-image" src="" alt="">
+      </div>
+
+      <p class="caption hidden" id="scene-caption"></p>
+      <p class="scene-text" id="scene-text"></p>
+
+      <div class="choices" id="choices"></div>
+    </div>
+  </section>
+
+  <!-- story.js = your content (edit this one!) -->
+  <!-- app.js   = the logic that runs the page (no need to edit) -->
+  <script src="story.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
