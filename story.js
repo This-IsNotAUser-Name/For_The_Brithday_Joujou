@@ -12,7 +12,7 @@
 // ----------------------------------------------------------------
 const INTRO = {
   title: "Happy Birthday Mon Cœur!",
-  message: "I made you something. Press the button below whenever you're ready. It's a little adventure, made just for you.",
+  message: "I made you something. Load this page on you laptop and press the button below whenever you're ready. It's a little adventure, made just for you.",
   buttonLabel: "Start the Adventure",
 
   // This must match the key of the FIRST scene down in STORY below.
