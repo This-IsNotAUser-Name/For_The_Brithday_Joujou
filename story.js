@@ -65,11 +65,11 @@ const INTRO = {
 // a downloadable image summarizing which branch choices she made.
 // ----------------------------------------------------------------
 const CERTIFICATE = {
-  title: "Certificate of Adventure",
+  title: "Certificate of Boubou's Adventure Completion",
   recipientLabel: "This certifies that",
-  recipientName: "You",
+  recipientName: "Emma (G.P. Joujou) Terpereau",
   closing: "bravely chose every step of this journey, and made it to the end.",
-  signature: "With love, always"
+  signature: "With heaps and heaps of love, Sorosh"
 };
 
 
