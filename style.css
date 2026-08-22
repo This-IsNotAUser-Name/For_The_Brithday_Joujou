@@ -145,6 +145,13 @@ html, body {
 }
 .btn-choice:hover { background: #fffaf0; }
 
+.btn-certificate {
+  background: var(--gold);
+  color: var(--charcoal);
+  margin: 6px 8px;
+}
+.btn-certificate:hover { background: #b58f3c; }
+
 .btn-secondary {
   background: var(--teal);
   color: #fbfaf6;

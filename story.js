@@ -59,6 +59,20 @@ const INTRO = {
 // your own, then add more scenes the same way.
 // ----------------------------------------------------------------
 
+// ----------------------------------------------------------------
+// PART 3 — THE CERTIFICATE
+// Shown as a "Download Certificate" button on every ending. It's
+// a downloadable image summarizing which branch choices she made.
+// ----------------------------------------------------------------
+const CERTIFICATE = {
+  title: "Certificate of Adventure",
+  recipientLabel: "This certifies that",
+  recipientName: "You",
+  closing: "bravely chose every step of this journey, and made it to the end.",
+  signature: "With love, always"
+};
+
+
 const STORY = {
 
   start: {

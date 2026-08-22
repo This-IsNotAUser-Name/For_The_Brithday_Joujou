@@ -15,6 +15,7 @@ const sceneText = document.getElementById("scene-text");
 const choicesContainer = document.getElementById("choices");
 
 let stepCount = 0;
+let pathTaken = []; // labels of real branch choices she picked, in order
 
 // ---- Fill in the intro screen from story.js's INTRO object ----
 document.getElementById("intro-title").textContent = INTRO.title;
@@ -90,11 +91,18 @@ function renderScene(key) {
       // This scene is an ending.
       postcard.classList.add("ending");
 
+      const certBtn = document.createElement("button");
+      certBtn.className = "btn btn-certificate";
+      certBtn.textContent = "Download Certificate";
+      certBtn.addEventListener("click", generateCertificate);
+      choicesContainer.appendChild(certBtn);
+
       const againBtn = document.createElement("button");
       againBtn.className = "btn btn-secondary";
       againBtn.textContent = "Read it again";
       againBtn.addEventListener("click", () => {
         stepCount = 0;
+        pathTaken = [];
         renderScene(INTRO.startScene);
       });
 
@@ -102,18 +110,124 @@ function renderScene(key) {
       spawnHearts();
     } else {
       // One button per choice. One choice = a simple "Continue".
-      // Two choices = the story branches here.
+      // Two choices = the story branches here — record her pick.
       scene.choices.forEach((choice) => {
         const btn = document.createElement("button");
         btn.className = "btn btn-choice";
         btn.textContent = choice.label;
-        btn.addEventListener("click", () => renderScene(choice.next));
+        btn.addEventListener("click", () => {
+          if (scene.choices.length > 1) {
+            pathTaken.push(choice.label);
+          }
+          renderScene(choice.next);
+        });
         choicesContainer.appendChild(btn);
       });
     }
 
     postcard.classList.remove("turning");
   }, 320);
+}
+
+// ---- Draw wrapped, centered text on a canvas; returns the y position ----
+// after the last line, so the caller knows where to continue drawing.
+function drawWrappedCenteredText(ctx, text, centerX, y, maxWidth, lineHeight) {
+  const words = text.split(" ");
+  const lines = [];
+  let line = "";
+  words.forEach((word) => {
+    const testLine = line ? line + " " + word : word;
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = testLine;
+    }
+  });
+  if (line) lines.push(line);
+  lines.forEach((l, i) => ctx.fillText(l, centerX, y + i * lineHeight));
+  return y + lines.length * lineHeight;
+}
+
+// ---- Build and download the certificate image ----
+async function generateCertificate() {
+  // Wait for the custom fonts to be ready so the canvas draws them
+  // correctly instead of falling back to a default font.
+  if (document.fonts && document.fonts.ready) {
+    await document.fonts.ready;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1000;
+  canvas.height = 700;
+  const ctx = canvas.getContext("2d");
+
+  // Background + double border
+  ctx.fillStyle = "#F6EFE1";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "#C9A24B";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+  ctx.strokeRect(42, 42, canvas.width - 84, canvas.height - 84);
+
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "#2F6F6A";
+  ctx.font = "13px 'Space Mono'";
+  ctx.fillText("ISSUED UPON COMPLETION OF THE JOURNEY", canvas.width / 2, 90);
+
+  ctx.fillStyle = "#1B2A4A";
+  ctx.font = "600 44px 'Fraunces'";
+  ctx.fillText(CERTIFICATE.title, canvas.width / 2, 150);
+
+  ctx.fillStyle = "#2B2320";
+  ctx.font = "17px 'Karla'";
+  ctx.fillText(CERTIFICATE.recipientLabel, canvas.width / 2, 210);
+
+  ctx.fillStyle = "#D66B7D";
+  ctx.font = "600 38px 'Fraunces'";
+  ctx.fillText(CERTIFICATE.recipientName, canvas.width / 2, 260);
+
+  ctx.fillStyle = "#2B2320";
+  ctx.font = "16px 'Karla'";
+  let nextY = drawWrappedCenteredText(ctx, CERTIFICATE.closing, canvas.width / 2, 310, 720, 24);
+
+  if (pathTaken.length > 0) {
+    nextY += 34;
+    ctx.fillStyle = "#2F6F6A";
+    ctx.font = "bold 13px 'Space Mono'";
+    ctx.fillText("HER PATH", canvas.width / 2, nextY);
+    nextY += 26;
+    ctx.fillStyle = "#2B2320";
+    ctx.font = "italic 16px 'Karla'";
+    nextY = drawWrappedCenteredText(ctx, pathTaken.join("   →   "), canvas.width / 2, nextY, 780, 24);
+  }
+
+  // Date (bottom left) + signature (bottom right)
+  const dateStr = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+
+  ctx.strokeStyle = "#2B2320";
+  ctx.lineWidth = 1;
+  ctx.textAlign = "left";
+  ctx.beginPath(); ctx.moveTo(90, canvas.height - 95); ctx.lineTo(280, canvas.height - 95); ctx.stroke();
+  ctx.fillStyle = "#2B2320";
+  ctx.font = "14px 'Space Mono'";
+  ctx.fillText(dateStr, 90, canvas.height - 105);
+  ctx.font = "11px 'Karla'";
+  ctx.fillText("DATE", 90, canvas.height - 78);
+
+  ctx.textAlign = "right";
+  ctx.beginPath(); ctx.moveTo(canvas.width - 280, canvas.height - 95); ctx.lineTo(canvas.width - 90, canvas.height - 95); ctx.stroke();
+  ctx.font = "italic 18px 'Fraunces'";
+  ctx.fillText(CERTIFICATE.signature, canvas.width - 90, canvas.height - 105);
+  ctx.font = "11px 'Karla'";
+  ctx.fillText("SIGNED", canvas.width - 90, canvas.height - 78);
+
+  // Trigger the download
+  const link = document.createElement("a");
+  link.download = "certificate.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
 }
 
 // ---- A small heart burst, used once the story reaches an ending ----
