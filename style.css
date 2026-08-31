@@ -1,0 +1,292 @@
+/* ================================================================
+   DESIGN TOKENS
+   You don't need to touch this file to write your story — but if
+   you want to change colors later, everything pulls from here.
+   ================================================================ */
+:root {
+  --ink-navy: #1b2a4a;
+  --ink-navy-deep: #131f38;
+  --paper: #f6efe1;
+  --paper-shadow: #e6dcc7;
+  --rose: #d66b7d;
+  --rose-dark: #b84f60;
+  --gold: #c9a24b;
+  --teal: #2f6f6a;
+  --charcoal: #2b2320;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Karla", sans-serif;
+  --font-stamp: "Space Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: radial-gradient(ellipse at top, var(--ink-navy) 0%, var(--ink-navy-deep) 70%);
+  color: var(--charcoal);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.hidden { display: none !important; }
+
+/* ---------------------------------------------------------------
+   Starfield (behind everything)
+   --------------------------------------------------------------- */
+#stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.25;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.9; }
+}
+
+/* ---------------------------------------------------------------
+   Shared screen layout
+   --------------------------------------------------------------- */
+.screen {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  transition: opacity 0.5s ease;
+}
+
+.screen.fade-out { opacity: 0; }
+
+/* ---------------------------------------------------------------
+   Intro screen ("envelope")
+   --------------------------------------------------------------- */
+.envelope {
+  max-width: 520px;
+  text-align: center;
+  color: var(--paper);
+  animation: rise 0.9s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  font-family: var(--font-stamp);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.envelope h1 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(32px, 6vw, 52px);
+  margin: 0 0 20px;
+  line-height: 1.15;
+}
+
+.envelope p#intro-message {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #d9def0;
+  margin: 0 0 34px;
+}
+
+/* ---------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+.btn-primary {
+  background: var(--rose);
+  color: #fff8f2;
+  box-shadow: 0 10px 24px rgba(214, 107, 125, 0.4);
+}
+.btn-primary:hover { background: var(--rose-dark); }
+
+.btn-choice {
+  background: var(--paper);
+  color: var(--charcoal);
+  border: 2px dashed var(--gold);
+  margin: 6px 8px;
+}
+.btn-choice:hover { background: #fffaf0; }
+
+.btn-certificate {
+  background: var(--gold);
+  color: var(--charcoal);
+  margin: 6px 8px;
+}
+.btn-certificate:hover { background: #b58f3c; }
+
+.btn-secondary {
+  background: var(--teal);
+  color: #fbfaf6;
+  margin-top: 10px;
+}
+.btn-secondary:hover { background: #275b57; }
+
+/* ---------------------------------------------------------------
+   The postcard (each scene of the adventure)
+   --------------------------------------------------------------- */
+.postcard {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 26px 26px 30px;
+  box-shadow:
+    0 2px 0 var(--paper-shadow),
+    0 24px 50px rgba(9, 14, 28, 0.45);
+  transform: rotate(-0.6deg);
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.postcard.turning {
+  opacity: 0;
+  transform: rotate(-0.6deg) scale(0.97);
+}
+
+.postmark {
+  position: absolute;
+  top: -18px;
+  right: -14px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--paper);
+  color: var(--gold);
+  font-family: var(--font-stamp);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(8deg);
+  box-shadow: 0 6px 14px rgba(9, 14, 28, 0.35);
+}
+
+.photo-frame {
+  position: relative;
+  background: #fff;
+  padding: 10px 10px 14px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+  transform: rotate(0.8deg);
+  margin-bottom: 18px;
+}
+
+.photo-frame::before,
+.photo-frame::after {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  top: -8px;
+}
+.photo-frame::before { left: 14px; transform: rotate(-8deg); }
+.photo-frame::after  { right: 14px; transform: rotate(6deg); }
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #ece3d1;
+}
+
+.caption {
+  font-family: var(--font-stamp);
+  font-size: 12px;
+  color: var(--teal);
+  text-align: center;
+  margin: -10px 0 16px;
+}
+
+.scene-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--charcoal);
+  margin: 0 0 22px;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.postcard.ending .postmark {
+  border-color: var(--rose);
+  color: var(--rose-dark);
+}
+
+/* ---------------------------------------------------------------
+   Ending heart burst
+   --------------------------------------------------------------- */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  z-index: 5;
+  color: var(--rose);
+  font-size: 20px;
+  animation: floatUp 2.6s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-92vh) scale(1.1); }
+}
+
+/* ---------------------------------------------------------------
+   Small screens
+   --------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .postcard { padding: 22px 18px 26px; }
+  .scene-text { font-size: 16.5px; }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .star, .heart, .envelope { animation: none !important; }
+  .postcard { transition: none; }
+}
