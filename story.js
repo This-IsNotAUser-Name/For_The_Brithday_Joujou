@@ -68,8 +68,8 @@ const CERTIFICATE = {
   title: "Certificate of Boubou's Adventure Completion",
   recipientLabel: "This certifies that",
   recipientName: "Emma (G.P. Joujou) Terpereau",
-  closing: "bravely chose every step of this journey, and made it to the end.",
-  signature: "With heaps and heaps of love, Sorosh"
+  closing: "bravely chose every step of her birthday journey, and made it to the end.",
+  signature: "Tavalodet Mobarak, Sorosh"
 };
 
 
